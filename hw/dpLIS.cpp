@@ -19,6 +19,7 @@ int findLIS(int arr[],
    * For every element in array, check if it is greater than any element starting from 0th index till (current element - 1)
    * if Yes then set the count in LIS list LIS[index] + 1 for current element. Do this only if LIS current element is lesser. 
    */
+  /*Big O : N*N to fill the LIS list and N for finding the max . so O( (N*N) + N)
 
   int LIS[size];
   memset((void*)LIS,0,size * sizeof(int));
