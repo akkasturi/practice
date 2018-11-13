@@ -20,6 +20,7 @@ int findLIS(int arr[],
    * if Yes then set the count in LIS list LIS[index] + 1 for current element. Do this only if LIS current element is lesser. 
    */
   /*Big O : N*N to fill the LIS list and N for finding the max . so O( (N*N) + N)
+   * Space complexity O(N)*/
 
   int LIS[size];
   memset((void*)LIS,0,size * sizeof(int));
