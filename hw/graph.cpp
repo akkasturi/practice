@@ -3,6 +3,7 @@
 #include <unordered_set>
 #include <vector>
 #include <typeinfo>
+#include <queue>
 
 using namespace std;
 
@@ -17,176 +18,120 @@ using namespace std;
  *        Or altogether sepearate Arracy/Vector .... 
  */
 
-
+/***********************************/
+/***********************************/
 struct Vertex{
-  int label;
+  int age;
   vector<string> edges;
 };
 
 typedef unordered_map<string,Vertex *> myStrVertexUMap;
 typedef unordered_map<string,Vertex *>::const_iterator myStrVertexUMapIter;
 
-typedef unordered_map <string,unordered_set<string>> myStrSetUMap;
-typedef unordered_map <string,unordered_set<string>>::const_iterator myStrSetUMapConstIter;
-
-void getItenrary(myStrSetUMap &graph);
-void dfs(myStrSetUMap &graph);
-
-void getItenrary(myStrVertexUMap &graph)
-
-void printGraph(myStrSetUMap &graph)
-{
-  for(auto it = graph.begin(); it != graph.end(); ++it){
-    cout <<"Key/Value(s): "<< it->first << "/";
-
-    unordered_set<string> &edges = it->second;
-    for( auto edge = edges.begin(); edge != edges.end(); ++edge){
-      cout<< *edge <<",";    
-    }
-    cout<<endl;
-  }
-}
-
-int main()
-{
-  
-  myStrSetUMap graph;
-
-  //getItenrary(graph);
-  dfs(graph);
-  
-  return 0;
-}
-
-/*************************************************/
-void getItenraryUtil(myStrSetUMap &graph, const string &city);
-void getItenrary(myStrSetUMap &graph)
-{
-  //Assumptions:
-  // i) all cities are connected atleast to 1 city 
-  // ii) no back edge/loop
-  // iii) starting city exists
-
-  graph["pune"].emplace("delhi");
-  graph["delhi"].emplace("hyderabad");
-  graph["hyderabad"].emplace("bangalore");
-
-  printGraph(graph);
-
-  cout<<"\nItenrary : "<<endl;
-  getItenraryUtil(graph,"pune");
-  cout<<endl;
-  
-}
-
-void getItenraryUtil(myStrSetUMap &graph, const string &city)
-{
-  myStrSetUMapConstIter gIter = graph.find(city);
-  
-  if(gIter == graph.end()){
-    return;
-  }
-
-  cout<<gIter->first;
-
-  unordered_set<string>::const_iterator edgeIter = gIter->second.begin();
-  cout<< "-->"<< *edgeIter<<endl;
-  
-  getItenraryUtil(graph,*edgeIter);
-}
-/*************************************************/
-
-
-void dfsUtil(myStrSetUMap &graph, string v, unordered_set<string> &visited);
-void dfs(myStrSetUMap &graph)
-{
-  
-  graph["one"].emplace("two");
-  graph["two"].emplace("three");
-  graph["three"].emplace("two");
-  graph["two"].emplace("four");
-  graph["four"].emplace("four");
-
-  unordered_set<string> visited;
-
-//  myStrSetUMapConstIter gIter = graph.begin();
-  cout<<endl<<"DFS : " << endl;
-
-  //DfsUtil(graph,gIter->first,visited);
-  dfsUtil(graph,"one",visited);
-  cout<< endl;
-}
-
-void dfsUtil(myStrSetUMap &graph, string v, unordered_set<string> &visited)
-{
-  myStrSetUMapConstIter gIter = graph.find(v);
-  
-  if(gIter == graph.end()){
-    return;
-  }
-
-
-  cout << gIter->first<<endl;
-  visited.emplace(v);
-
-  unordered_set<string>::const_iterator edgeIter = gIter->second.begin();
-  for(; edgeIter != gIter->second.end(); ++edgeIter){
-    if(visited.count(*edgeIter) > 0 ){
-      cout<<"Already visited : " << *edgeIter<< endl;
-      continue;
-    } 
-    dfsUtil(graph,*edgeIter,visited);
-  }
-
-}
-
-/*************************************************/
-void getItenraryUtil(myStrVertexUMap &graph, const string &city);
+void printGraph(myStrVertexUMap &graph);
 void addEdge(myStrVertexUMap &graph,string from, string to);
+void createAndFindFriendship(myStrVertexUMap graph);
+bool findFriendshipUtil(myStrVertexUMap graph,string friendA, string friendB);
 
-void getItenrary(myStrVertexUMap &graph)
-{
-  //Assumptions:
-  // i) all cities are connected atleast to 1 city 
-  // ii) no back edge/loop
-  // iii) starting city exists
-  int label = 101;
-  //Add Vertecies first.
-  graph["pune"].emplace(new Vertex({label++}));
-  graph["delhi"].emplace(new Vertex({label++}));
-  graph["hyderabad"].emplace(new Vertex({label++}));
 
-  addEdge(graph,"pune","delhi");
-
-  //printGraph(graph);
-
-  cout<<"\nItenrary : "<<endl;
-  getItenraryUtil(graph,"pune");
-  cout<<endl;
-  
-}
-
+/***********************************/
+/***********************************/
 void addEdge(myStrVertexUMap &graph,string from, string to)
 {
   //Assume both from and to vertecies exist.
 
   myStrVertexUMapIter gIter = graph.find(from);
 
-  gIter->second.edges.push_back(to);
+  gIter->second->edges.push_back(to);
 }
 
-void getItenraryUtil(myStrVertexUMap &graph, const string &city)
+void printGraph(myStrVertexUMap &graph)
 {
-  myStrVertexUMapIter gIter = graph.find(city);
+  Vertex *v;
+  cout <<"\nKey-->Value(s): "<<endl;
+  cout <<"----------------"<<endl;
+  for(auto it = graph.begin(); it != graph.end(); ++it){
+    cout <<it->first;
+
+    v = it->second;
+    vector<string>::const_iterator edgeIter = v->edges.begin();
+    cout<< " --> ";
+    for( auto edge = v->edges.begin(); edge != v->edges.end(); ++edge){
+      cout<< *edge <<",";    
+    }
+    cout<<endl;
+  }
+  cout<<endl;
+}
+
+/*Create friendship graph and find friendship between two people*/
+void createAndFindFriendship(myStrVertexUMap graph)
+{
+  //create people
+  graph.emplace("Amar", new Vertex({30}));
+  graph.emplace("Akbar", new Vertex({28}));
+  graph.emplace("Anthony", new Vertex({32}));
+  graph.emplace("Vijay", new Vertex({23}));
+  graph.emplace("Dinanath", new Vertex({23}));
+  graph.emplace("Chauhan", new Vertex({23}));
+
+  //create friendship graph
+  addEdge(graph,"Amar","Akbar");
+  addEdge(graph,"Amar","Anthony");
+  addEdge(graph,"Anthony","Vijay");
+  addEdge(graph,"Vijay","Dinanath");
+  addEdge(graph,"Dinanath","Chauhan");
+
+  printGraph(graph);
+
+  bool friends = findFriendshipUtil(graph,"Amar","Dinanath");
+  cout<<"Friends ? " << (friends ? "Yes":"No") << endl;
   
-  if(gIter == graph.end()){
-    return;
+  friends = findFriendshipUtil(graph,"Akbar","Dinanath");
+  cout<<"Friends ? " << (friends ? "Yes":"No") << endl;
+}
+
+/* Find friendship */
+bool findFriendshipUtil(myStrVertexUMap graph,string friendA, string friendB)
+{
+  unordered_set<string> visited;
+  queue<string> friendQueue;
+  string f;
+
+  cout<<"\nFinding friendship between "<<friendA <<" and " <<friendB<<endl;
+  friendQueue.push(friendA);
+
+  while(!friendQueue.empty()){
+    f = friendQueue.front();
+    visited.emplace(f);
+
+    cout<<"\tProcessing Friend: "<<f<<endl;
+    
+    if(f == friendB){
+      return true;
+    }
+
+    myStrVertexUMapIter gIter = graph.find(f);
+    
+    if(gIter == graph.end()) return false;
+
+    Vertex *v = gIter->second;
+    
+    //queue all edges if not already visited.
+    for(auto edge = v->edges.begin(); edge != v->edges.end(); ++edge){
+      if(visited.count(*edge) > 0 ) continue;
+      friendQueue.push(*edge);
+    }
+    friendQueue.pop();
   }
 
-  cout<<gIter->first;
+  return false;
+}
 
-  vector<string>::const_iterator edgeIter = gIter->second.begin();
-  cout<< "-->"<< edgeIter->second->edges[0] <<endl;
-  
-  getItenraryUtil(graph, edgeIter->second->edges[0]);
+
+int main()
+{
+  myStrVertexUMap graph;
+  createAndFindFriendship(graph);
+  return 0;
 }
