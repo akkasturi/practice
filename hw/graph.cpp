@@ -29,20 +29,28 @@ typedef unordered_map<string,Vertex *> myStrVertexUMap;
 typedef unordered_map<string,Vertex *>::const_iterator myStrVertexUMapIter;
 
 void printGraph(myStrVertexUMap &graph);
-void addEdge(myStrVertexUMap &graph,string from, string to);
+void addEdge(myStrVertexUMap &graph,string from, string to, bool undirected=false);
 void createAndFindFriendship(myStrVertexUMap graph);
 bool findFriendshipUtil(myStrVertexUMap graph,string friendA, string friendB);
 
 
+void createAndFindSubgraphs(myStrVertexUMap &graph);
+int findSubgraphs(myStrVertexUMap &graph, const string &node, unordered_set<string> *visited);
+void traversGraphDFS(myStrVertexUMap &graph, const string &node, unordered_set<string> *visited);
 /***********************************/
 /***********************************/
-void addEdge(myStrVertexUMap &graph,string from, string to)
+void addEdge(myStrVertexUMap &graph,string from, string to, bool undirected)
 {
   //Assume both from and to vertecies exist.
 
   myStrVertexUMapIter gIter = graph.find(from);
 
   gIter->second->edges.push_back(to);
+  if(undirected){
+    myStrVertexUMapIter gIter = graph.find(to);
+
+    gIter->second->edges.push_back(from);
+  }
 }
 
 void printGraph(myStrVertexUMap &graph)
@@ -129,9 +137,79 @@ bool findFriendshipUtil(myStrVertexUMap graph,string friendA, string friendB)
 }
 
 
+void createAndFindSubgraphs(myStrVertexUMap &graph)
+{
+  //create nodes 
+  graph.emplace("Amar", new Vertex({30}));
+  graph.emplace("Akbar", new Vertex({28}));
+  graph.emplace("Anthony", new Vertex({32}));
+  graph.emplace("Vijay", new Vertex({23}));
+  graph.emplace("Dinanath", new Vertex({23}));
+  graph.emplace("Chauhan", new Vertex({23}));
+  graph.emplace("Om", new Vertex({23}));
+  graph.emplace("Jai", new Vertex({23}));
+  graph.emplace("Jagdish", new Vertex({23}));
+  graph.emplace("Akela", new Vertex({23}));
+
+  //create friendship graph
+  addEdge(graph,"Amar","Akbar",true);
+  addEdge(graph,"Akbar","Akela",true);
+  addEdge(graph,"Akbar","Anthony",true);
+  //addEdge(graph,"Anthony","Vijay",true);
+  addEdge(graph,"Vijay","Dinanath",true);
+  addEdge(graph,"Dinanath","Chauhan",true);
+//  addEdge(graph,"Chauhan","Om",true);
+  addEdge(graph,"Om","Jai",true);
+  addEdge(graph,"Jai","Jagdish",true);
+
+  printGraph(graph);
+
+  cout<<endl<<"DFS"<<endl;
+
+  unordered_set<string> visited;
+  //int subgraphs = findSubgraphs(graph,"Amar",&visited);
+  traversGraphDFS(graph,"Amar",&visited);
+}
+
+int findSubgraphs(myStrVertexUMap &graph, const string &node, unordered_set<string> *visited)
+{
+  myStrVertexUMapIter iter = graph.find(node);
+
+  if(iter == graph.end()) return 0;
+
+  visited->emplace(node);
+  cout<<"\t"<<node<<endl;
+
+  for(auto edge = iter->second->edges.begin(); edge != iter->second->edges.end(); ++edge){
+    if(visited->count(*edge) > 0) continue;
+    findSubgraphs(graph,*edge,visited);
+  }
+
+  return 0;
+}
+
+void traversGraphDFS(myStrVertexUMap &graph, const string &node, unordered_set<string> *visited)
+{
+  myStrVertexUMapIter iter = graph.find(node);
+
+  if(iter == graph.end()) return;
+
+  visited->emplace(node);
+  cout<<"\t"<<node<<endl;
+
+  for(auto edge = iter->second->edges.begin(); edge != iter->second->edges.end(); ++edge){
+    if(visited->count(*edge) > 0){ 
+      continue;
+    }
+
+    traversGraphDFS(graph,*edge,visited);
+  }
+}
+
 int main()
 {
   myStrVertexUMap graph;
-  createAndFindFriendship(graph);
+  //createAndFindFriendship(graph);
+  createAndFindSubgraphs(graph);
   return 0;
 }
