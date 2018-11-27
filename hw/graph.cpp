@@ -139,6 +139,9 @@ bool findFriendshipUtil(myStrVertexUMap graph,string friendA, string friendB)
 
 void createAndFindSubgraphs(myStrVertexUMap &graph)
 {
+  /* Create undirected graph
+   * for each vertex in graph find the subgrapsh connected to that vertex
+   */
   //create nodes 
   graph.emplace("Amar", new Vertex({30}));
   graph.emplace("Akbar", new Vertex({28}));
@@ -164,11 +167,25 @@ void createAndFindSubgraphs(myStrVertexUMap &graph)
 
   printGraph(graph);
 
-  cout<<endl<<"DFS"<<endl;
+  cout<<endl<<"Subgraphs"<<endl;
 
   unordered_set<string> visited;
+  int subgraphs= 0;
+
+  for(auto it = graph.begin(); it != graph.end(); ++it){
+    //visited true? findSubgraphs() visited this node already
+    if(visited.count(it->first) > 0) continue;
+
+    //find subgraph for vertex, each call to this function
+    //covers all the connected edges and marks them visited.
+    subgraphs += findSubgraphs(graph,it->first,&visited);
+    cout<<endl;
+  }
+  cout<<"\nTotal Subgraphs : "<<subgraphs<<endl;
+
+
   //int subgraphs = findSubgraphs(graph,"Amar",&visited);
-  traversGraphDFS(graph,"Amar",&visited);
+ // traversGraphDFS(graph,"Amar",&visited);
 }
 
 int findSubgraphs(myStrVertexUMap &graph, const string &node, unordered_set<string> *visited)
@@ -185,7 +202,7 @@ int findSubgraphs(myStrVertexUMap &graph, const string &node, unordered_set<stri
     findSubgraphs(graph,*edge,visited);
   }
 
-  return 0;
+  return 1; //one subgraph covered, return 1 as count
 }
 
 void traversGraphDFS(myStrVertexUMap &graph, const string &node, unordered_set<string> *visited)
