@@ -7,6 +7,8 @@
 #include <queue>
 #include <set>
 #include <unordered_set>
+#include <map>
+#include <unordered_map>
 
 using namespace std;
 
@@ -25,7 +27,7 @@ void print_vector(vector<int>& nums)
 void vector_example()
 {
   vector<int> nums;
-  int value;
+  ;
 
   cout<<"--------------------------"<<endl;
   nums.push_back(10);
@@ -58,7 +60,7 @@ void print_list(list<int>& nums)
 void list_example()
 {
   list<int> nums;
-  int value;
+  ;
 
   cout<<"--------------------------"<<endl;
   nums.push_back(10);
@@ -92,7 +94,7 @@ void print_fwd_list(forward_list<int>& nums)
 void fwd_list_example()
 {
   forward_list<int> nums;
-  int value;
+  ;
 
   cout<<"--------------------------"<<endl;
   nums.push_front(10);
@@ -124,7 +126,7 @@ void print_deque(deque<int>& nums)
 void deque_example()
 {
   deque<int> nums;
-  int value;
+  ;
 
   cout<<"--------------------------"<<endl;
   nums.push_front(10);
@@ -166,7 +168,7 @@ void print_stack(stack<int>& nums)
 void stack_example()
 {
   stack<int> nums;
-  int value;
+  ;
 
   cout<<"--------------------------"<<endl;
   nums.push(10);
@@ -193,7 +195,7 @@ void print_queue(queue<int>& nums)
 void queue_example()
 {
   queue<int> nums;
-  int value;
+  ;
 
   cout<<"--------------------------"<<endl;
   nums.push(10);
@@ -221,7 +223,7 @@ void print_priority_queue(priority_queue<int>& nums)
 void priority_queue_example()
 {
   priority_queue<int> nums;
-  int value;
+  ;
 
   cout<<"--------------------------"<<endl;
   nums.push(10);
@@ -244,34 +246,146 @@ void print_set(SET& nums)
   }
   cout<<"}"<<endl;
 }
-void set_example()
-{
-  set<int> nums;
-  int value;
 
-  cout<<"--------------------------"<<endl;
-  cout<<"set"<<endl;
+template <typename SET>
+void insert_set_data(SET& nums)
+{
   nums.insert(10);
   nums.emplace(11);
   nums.emplace(9);
+  nums.emplace(9);
   nums.emplace(987869);
-  cout<<"element 1 Found ? "<< (nums.count(1)?"Yes":"No")<<endl;
+  nums.emplace(987869);
+}
+
+void set_example()
+{
+  set<int> nums;
+
+  cout<<"--------------------------"<<endl;
+  cout<<"set"<<endl;
+  cout<<"element 1 Found ? "<< nums.count(1)<<endl;
+  
+  insert_set_data<set<int>>(nums);
+  
   print_set<set<int>>(nums);
   
+//
+  multiset<int> numss;
+  cout<<"--------------------------"<<endl;
+  cout<<"multiset"<<endl;
+  
+  insert_set_data<multiset<int>>(numss);
+  
+  cout<<"element 9 Found ? "<< numss.count(9)<<endl;
+  print_set<multiset<int>>(numss);
+  
+  numss.erase(9);
+  cout<<"Erasing element 9. Note how it erases multiple keys with same value."<<endl;
+  print_set<multiset<int>>(numss);
+
+//  
+  unordered_set<int> nums1;
   cout<<"--------------------------"<<endl;
   cout<<"unordered set"<<endl;
-  unordered_set<int> nums1;
 
-  nums1.insert(10);
-  nums1.emplace(11);
-  nums1.emplace(9);
-  nums1.emplace(987869);
+  insert_set_data<unordered_set<int>>(nums1);
   
-  cout<<"element 10 Found ? "<< (nums1.count(10)?"Yes":"No")<<endl;
-
+  cout<<"element 10 Found ? "<< nums1.count(10)<<endl;
   print_set<unordered_set<int>>(nums1);
+
+//  
+  unordered_multiset<int> numss1;
+  cout<<"--------------------------"<<endl;
+  cout<<"unordered multiset"<<endl;
+
+  insert_set_data<unordered_multiset<int>>(numss1);
+  
+  cout<<"element 987869 Found ? "<< numss1.count(987869)<<endl;
+
+  print_set<unordered_multiset<int>>(numss1);
  
 }
+
+/**********************************/
+/**********************************/
+template<typename MAP>
+void print_map(MAP& nums)
+{
+  cout<<"Map Contents["<<nums.size()<<"] { ";
+  //for(const pair<int,string> &i : nums){ /// NOTE: in this format i is context of MAP, not the MAP reference
+  for(auto i = nums.begin(); i != nums.end(); i++){
+  //for( typename MAP::const_iterator i = nums.begin(); i != nums.end(); i++){
+   cout<<"("<<(i->first)<<","<<i->second<<"), " ;
+  }
+  cout<<"}"<<endl;
+}
+
+template <typename MAP>
+void insert_map_data(MAP& nums)
+{
+  //nums.insert(10,"Ten");
+  nums.emplace(11,"Eleven");
+  nums.emplace(9,"Nine");
+  nums.emplace(9,"Nine 1");
+  nums.emplace(987869,"Big Number");
+  nums.emplace(987869,"Big Number 1");
+
+  pair<int,string> p;
+  p.first = 20;
+  p.second = "Twenty";
+  nums.insert(p);
+}
+
+void map_example()
+{
+  map<int,string> nums;
+
+  cout<<"--------------------------"<<endl;
+  cout<<"map"<<endl;
+  cout<<"element 1 Found ? "<< nums.count(1)<<endl;
+  
+  insert_map_data<map<int,string>>(nums);
+  
+  print_map<map<int,string>>(nums);
+  
+//
+  multimap<int,string> numss;
+  cout<<"--------------------------"<<endl;
+  cout<<"multimap"<<endl;
+  
+  insert_map_data<multimap<int,string>>(numss);
+  
+  cout<<"element 9 Found ? "<< numss.count(9)<<endl;
+  print_map<multimap<int,string>>(numss);
+  
+  numss.erase(9);
+  cout<<"Erasing element 9. Note how it erases multiple keys with same value."<<endl;
+  print_map<multimap<int,string>>(numss);
+
+//  
+  unordered_map<int,string> nums1;
+  cout<<"--------------------------"<<endl;
+  cout<<"unordered map"<<endl;
+
+  insert_map_data<unordered_map<int,string>>(nums1);
+  
+  cout<<"element 10 Found ? "<< nums1.count(10)<<endl;
+  print_map<unordered_map<int,string>>(nums1);
+
+//  
+  unordered_multimap<int,string> numss1;
+  cout<<"--------------------------"<<endl;
+  cout<<"unordered multimap"<<endl;
+
+  insert_map_data<unordered_multimap<int,string>>(numss1);
+  
+  cout<<"element 987869 Found ? "<< numss1.count(987869)<<endl;
+
+  print_map<unordered_multimap<int,string>>(numss1);
+ 
+}
+
 /**********************************/
 /**********************************/
 int main()
@@ -283,7 +397,8 @@ int main()
  // stack_example();
  //   queue_example();
  //  priority_queue_example();
- set_example();
+ //set_example();
+ map_example();
 
   return 0;
 }
