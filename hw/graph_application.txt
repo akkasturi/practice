@@ -1,0 +1,7 @@
+##############################
+Topological Sort 
+##############################
+In general, where we have dependancy tasks, i.e. before starting the task X , another set of task(s) should be finished.
+1  Build System : Build packages in order
+2. Job scheduling
+3. 
