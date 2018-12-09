@@ -4,4 +4,43 @@ Topological Sort
 In general, where we have dependancy tasks, i.e. before starting the task X , another set of task(s) should be finished.
 1  Build System : Build packages in order
 2. Job scheduling
-3. 
+
+##############################
+Problems:
+##############################
+  1. Longest Path in a Directed Acyclic Graph
+        Given a Weighted Directed Acyclic Graph (DAG) and a source vertex s in it, find the longest distances from s to all other vertices in the given graph.
+  2. Shortest Path in Directed Acyclic Graph
+        Given a Weighted Directed Acyclic Graph and a source vertex in the graph, find the shortest paths from given source to all other vertices.
+  3. Number of paths from source to destination in a directed acyclic graph
+        Given a Directed Acyclic Graph with n vertices and m edges. The task is to find the number of different paths that exist from a source vertex to destination vertex. 
+  4. Detect Cycle in a Directed Graph
+  5. Clone Graph 
+  6. Possibility of finishing all courses given pre-requisites
+
+      There are a total of N courses you have to take, labeled from 1 to N. Some courses may have prerequisites, for example to take course 2 you have to first take course 1,  
+      which is expressed as a pair: [1,2]. 
+
+      Given the total number of courses and a list of prerequisite pairs, is it possible for you to finish all courses. return 1/0 if it is possible/not possible.
+      The list of prerequisite pair are given in two integer arrays B and C where B[i] is a prerequisite for C[i].
+
+      Example:
+
+      If N = 3 and the prerequisite pairs are [1,2] and [2,3], then you can finish courses in the following order: 1, 2 and 3.
+      But if N = 2 and the prerequisite pairs are [1,2] and [2,1], then it is not possible for you to finish all the courses. 
+
+  7. Commutable Islands
+      There are n islands and there are many bridges connecting them. Each bridge has some cost attached to it.
+      We need to find bridges with minimal cost such that all islands are connected.
+
+  8. All topological sorts of a graph.
+  9. Check if a given directed graph is strongly connected | Set 2 (Kosaraju using BFS)
+      Given a directed graph, find out whether the graph is strongly connected or not. A directed graph is strongly connected if there is a path between any two 
+      pairs of vertices. 
+
+  10. Minimum spanning tree.
+  11. Bipartite Graph
+  12. Graph coloring
+         Color the nodes in a graph so adjacent nodes always have different colors.
+  13. Find Maximum cost path in Weighted Directed Graph from given Source to Destination.
+  14. 

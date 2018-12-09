@@ -227,12 +227,18 @@ void Graph::dfsTopologicalSort()
  /** Logic:
   *  Traverse the graph in DFS.
   *  In post processing i.e. after processing the edges, add the current node to Stack
+  *  Complexity :
+  *  Time : O(N) - traverse each node node.
+  *  Space : O(N) - Extra stack storage. ( recursion stack space can alos be cosidered, it'll depend of how long the path is created by edges)  
   */
 
   set<int> visited;
   stack<int> nodes_stack; //stores topologial sorted nodes
 
-  dfsTopologicalSortUtil(visited,nodes_stack,1);
+  for( int i = 1; i < graph.size(); i++){
+    if(visited.count(i) > 0) continue;
+    dfsTopologicalSortUtil(visited,nodes_stack,i);
+  }
 
   //print stack 
   cout<<"Topological Sort : "<<endl;
@@ -324,11 +330,12 @@ void createAndTopologicalSort()
   g.addEdge(5,6);
   g.addEdge(5,7);
   g.addEdge(6,8);
-  g.addEdge(8,9);
+  g.addEdge(8,10);
   g.addEdge(9,10);
 
   g.printNodes();
   g.dfsTopologicalSort();
+  //g.bfs();
 }
 
 int main()
