@@ -28,7 +28,9 @@ int findLIS(int arr[],
 
   for(int current_index = 1; current_index < size; current_index++){
     for(int j = 0; j < current_index; j++){
-      if(arr[current_index] > arr[j] && (LIS[current_index] < LIS[j] + 1)){
+      if(arr[current_index] > arr[j] && 
+          (LIS[current_index] < LIS[j] + 1) //without this theck we will always copy the Jth value from LIS, which'll corrupt the result.
+          ){
         LIS[current_index] = LIS[j] + 1;
       }
     }
@@ -60,7 +62,8 @@ int main()
 //  int arr[] = { 1,2,3,4,5,6,7,8,9 };
 //  int arr[] = { 9,8,7,6,5,4,3,2,1 };
 
-  int arr[] = { 11,12,13,14,10,1,2,3,6,7,8,9,-11,-10,-9,-8,-7,-6,-5,-4,-3,-2,0 };
+  int arr[] = { 3,10,2,1,20};
+  //int arr[] = { 11,12,13,14,10,1,2,3,6,7,8,9,-11,-10,-9,-8,-7,-6,-5,-4,-3,-2,0 };
   //int arr[] = { 2,4,6,3,5,7,9 };
   int size = sizeof(arr)/sizeof(arr[0]);
   int lis = findLIS(arr,size);
