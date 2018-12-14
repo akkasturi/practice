@@ -1,4 +1,3 @@
-/* A Naive recursive implementation of LCS problem */
 #include <iostream>
 #include <cstring>
 
@@ -17,6 +16,9 @@ int rLCS( char *X, char *Y, int m, int n )
    if (X[m] == Y[n]) 
      return 1 + rLCS(X, Y, m-1, n-1); 
    else
+     /* No match, now we have to try by decrement both string one at a time and compare, whichever matches takes its value.
+      * assume only last character left, and it matched , we'll get 1. 
+      * More character left, we'll be calling it recrusively and get the count*/
      return max(rLCS(X, Y, m, n-1), rLCS(X, Y, m-1, n)); 
 } 
   
