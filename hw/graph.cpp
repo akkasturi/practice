@@ -76,8 +76,12 @@ void printGraph(myStrVertexUMap &graph)
 void createAndFindFriendship(myStrVertexUMap graph)
 {
   //create people
-  graph.emplace("Amar", new Vertex({30}));
-  graph.emplace("Akbar", new Vertex({28}));
+  pair<string,Vertex*> p ;
+  p.first = "Amar";
+  p.second = new Vertex();
+
+  graph.insert(p);
+  graph.emplace("Akbar", new Vertex());
   graph.emplace("Anthony", new Vertex({32}));
   graph.emplace("Vijay", new Vertex({23}));
   graph.emplace("Dinanath", new Vertex({23}));
