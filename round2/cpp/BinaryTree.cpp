@@ -3,10 +3,6 @@
 using std::cout;
 using std::endl;
 
-void preorder(BinaryTree *root);
-BinaryTree*  makeTree(int dataArray, int size);
-BinaryTree *makeNode(BinaryTree *root, int data);
-
 BinaryTree* makeTree(int *dataArray, int size)
 {
   BinaryTree *root = makeNode(NULL,dataArray[0]);
@@ -60,6 +56,20 @@ BinaryTree *makeNode(BinaryTree *root, int data)
   return newNode;
 }
 
+BinaryTree *makeRealBinaryTreeNode(int data)
+{
+  BinaryTree *newNode = NULL;
+
+
+  newNode = (BinaryTree*) malloc(sizeof(BinaryTree));
+
+  newNode->left = NULL;
+  newNode->right = NULL;
+  newNode->data = data;
+
+  return newNode;
+}
+
 
 void preorder(BinaryTree *root)
 {
@@ -88,6 +98,8 @@ void postorder(BinaryTree *root)
   cout<<root->data <<", ";
 }
 
+#if 0
+
 int main()
 {
   int dataArray[] = {19,14,11,9,12,17,15,18,28,23,21,24,27,26,29};
@@ -101,4 +113,4 @@ int main()
 
   return 0;
 }
-
+#endif

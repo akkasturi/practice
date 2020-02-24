@@ -1,0 +1,11 @@
+1. How to solve tree problems or General steps/pattern in tree problems.
+  - Identify what traversal would be needed (pre/in/post). For example:
+      -- Post order traversal is needed if parent has to take the decision based on 
+         the results from both children nodes. e.g. LCA in Binary Tree.
+      -- In order traversal is needed if  
+      -- Pre order traversal is needed if 
+  
+  - Identify if results from previous iteration has to be passed to next or vice versa, 
+      -- if yes then how to pass it.
+      -- How to process the result. << this is core Logic of the algorithm.
+  - What would be terminating conditions.
